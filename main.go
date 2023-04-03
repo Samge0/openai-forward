@@ -10,12 +10,15 @@ import (
 func handler(w http.ResponseWriter, r *http.Request) {
 	client := &http.Client{}
 
-	targetURL := "https://api.openai.com" // 替换为要转发的域名
+	// 替换为要转发的域名
+	targetURL := "https://api.openai.com" + r.RequestURI
 	req, _ := http.NewRequest(r.Method, targetURL, r.Body)
 	req.Header = r.Header
+
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("Error sending request to target URL: %v", err)
+		http.Error(w, "Failed to make request to target URL", http.StatusInternalServerError)
+		return
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
