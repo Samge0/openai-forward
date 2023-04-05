@@ -7,11 +7,26 @@ import (
 	"net/http"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
+// 处理api的地址转发
+func handlerApi(w http.ResponseWriter, r *http.Request) {
+	handler(w, r, "https://api.openai.com")
+}
+
+// handlerReg 处理注册的地址转发
+func handlerReg(w http.ResponseWriter, r *http.Request) {
+	handler(w, r, "https://platform.openai.com")
+}
+
+// handlerChat 处理聊天界面的地址转发
+func handlerChat(w http.ResponseWriter, r *http.Request) {
+	handler(w, r, "https://chat.openai.com")
+}
+
+func handler(w http.ResponseWriter, r *http.Request, forwardUrl string) {
 	client := &http.Client{}
 
 	// 替换为要转发的域名
-	targetURL := "https://api.openai.com" + r.RequestURI
+	targetURL := forwardUrl + r.RequestURI
 	req, _ := http.NewRequest(r.Method, targetURL, r.Body)
 	req.Header = r.Header
 
@@ -37,7 +52,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", handlerApi)
+	http.HandleFunc("/reg", handlerReg)
+	http.HandleFunc("/chat", handlerChat)
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println(err)
