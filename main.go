@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"strings"
 )
 
 // 处理api的地址转发
@@ -17,9 +16,7 @@ func handler(w http.ResponseWriter, r *http.Request, forwardUrl string) {
 	client := &http.Client{}
 
 	// 替换为要转发的域名
-	urlPath := strings.Replace(r.RequestURI, "/forward-reg", "", 1)
-	urlPath = strings.Replace(r.RequestURI, "/forward-chat", "", 1)
-	targetURL := forwardUrl + urlPath
+	targetURL := forwardUrl + r.RequestURI
 	req, _ := http.NewRequest(r.Method, targetURL, r.Body)
 	req.Header = r.Header
 
