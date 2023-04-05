@@ -13,16 +13,6 @@ func handlerApi(w http.ResponseWriter, r *http.Request) {
 	handler(w, r, "https://api.openai.com")
 }
 
-// handlerReg 处理注册的地址转发
-func handlerReg(w http.ResponseWriter, r *http.Request) {
-	handler(w, r, "https://platform.openai.com")
-}
-
-// handlerChat 处理聊天界面的地址转发
-func handlerChat(w http.ResponseWriter, r *http.Request) {
-	handler(w, r, "https://chat.openai.com")
-}
-
 func handler(w http.ResponseWriter, r *http.Request, forwardUrl string) {
 	client := &http.Client{}
 
@@ -56,8 +46,6 @@ func handler(w http.ResponseWriter, r *http.Request, forwardUrl string) {
 }
 func main() {
 	http.HandleFunc("/", handlerApi)
-	http.HandleFunc("/forward-reg", handlerReg)
-	http.HandleFunc("/forward-chat", handlerChat)
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println(err)
