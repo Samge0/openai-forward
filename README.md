@@ -54,5 +54,7 @@ samge/openai-forward:latest
   - 使用`ai.你的域名`替换`api.openai.com`进行请求测试；
 
 
-### 有疑问请添加微信（备注: openai-forward），不定期通过解答
-> 微信号 SamgeApp
+### 技术交流
+- [Join Discord >>](https://discord.com/invite/eRuSqve8CE)
+- WeChat：`SamgeApp`
+
